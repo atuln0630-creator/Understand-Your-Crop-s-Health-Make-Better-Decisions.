@@ -1,0 +1,266 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrishiMitra AI - Crop Disease Detection</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,sans-serif;
+  background:#f3f8f1;
+  color:#203529;
+}
+header{
+  background:#176b3a;
+  color:white;
+  padding:18px 7%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.logo{font-size:25px;font-weight:bold}
+.logo span{color:#b9f27c}
+nav a{
+  color:white;text-decoration:none;
+  margin-left:18px;font-size:14px
+}
+.hero{
+  padding:65px 7%;
+  background:linear-gradient(120deg,#e0f5dc,#f8fff3);
+  display:grid;grid-template-columns:1.1fr .9fr;
+  align-items:center;gap:35px
+}
+.hero h1{font-size:clamp(32px,5vw,52px);line-height:1.15;margin-bottom:18px}
+.hero h1 span{color:#21834b}
+.hero p{line-height:1.8;color:#53675a;margin-bottom:25px}
+.tag{
+  display:inline-block;background:#d1edc9;color:#176b3a;
+  padding:8px 13px;border-radius:30px;margin-bottom:16px;
+  font-size:13px;font-weight:bold
+}
+.hero-art{
+  min-height:270px;border-radius:28px;
+  background:linear-gradient(145deg,#b9e9a9,#e8f7d9);
+  display:flex;align-items:center;justify-content:center;
+  font-size:110px;box-shadow:0 12px 35px #173e2415
+}
+.btn{
+  border:0;background:#19723d;color:white;padding:14px 22px;
+  border-radius:10px;font-weight:bold;cursor:pointer;
+  display:inline-block;text-decoration:none
+}
+.btn:hover{background:#105b2e}
+section{padding:55px 7%}
+.section-title{text-align:center;font-size:30px;margin-bottom:12px}
+.section-sub{text-align:center;color:#66786b;margin-bottom:30px;line-height:1.7}
+.detector{
+  max-width:850px;margin:auto;background:white;
+  border:1px solid #e0e9df;border-radius:20px;padding:28px;
+  box-shadow:0 12px 30px #16391c0a
+}
+.upload{
+  border:2px dashed #a8c9a5;border-radius:16px;padding:30px;
+  text-align:center;background:#f8fcf6;cursor:pointer
+}
+.upload .leaf{font-size:45px;margin-bottom:10px}
+.upload p{color:#6c7c70;line-height:1.7;margin:8px 0 15px}
+#preview{
+  display:none;max-width:100%;max-height:300px;
+  margin:20px auto 0;border-radius:12px
+}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.actions .btn{flex:1;min-width:180px}
+.secondary{background:#e6f2e3;color:#1b6537}
+.secondary:hover{background:#d7ebd2}
+#status{margin-top:18px;line-height:1.7;color:#41644a}
+.result{
+  display:none;margin-top:22px;background:#f1f9ed;
+  border-radius:14px;padding:20px;border:1px solid #d8ead2
+}
+.result h3{margin-bottom:10px;color:#176b3a}
+.result p{line-height:1.8;margin:7px 0}
+.cards{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px
+}
+.card{
+  background:white;padding:22px;border-radius:16px;
+  border:1px solid #e0e9df
+}
+.card .emoji{font-size:30px;margin-bottom:13px}
+.card h3{margin-bottom:10px}
+.card p{color:#68786c;line-height:1.7;font-size:14px}
+.notice{
+  max-width:850px;margin:25px auto 0;padding:16px;
+  background:#fff6df;border-radius:12px;color:#725a1d;
+  line-height:1.7;font-size:13px
+}
+footer{background:#123d26;color:#dcebdd;padding:25px 7%;text-align:center;line-height:1.8}
+@media(max-width:700px){
+  .hero{grid-template-columns:1fr;padding-top:42px}
+  .hero-art{min-height:190px;font-size:80px}
+  .cards{grid-template-columns:1fr}
+  nav{width:100%}
+  nav a{margin:0 12px 0 0}
+  section{padding:42px 5%}
+  .detector{padding:17px}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="logo">🌿 Krishi<span>Mitra AI</span></div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#detect">Disease Check</a>
+    <a href="#guide">Farmer Guide</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div>
+    <div class="tag">🌱 SMART FARMING ASSISTANT</div>
+    <h1>Apni fasal ko rakhein <span>healthy aur safe</span></h1>
+    <p>
+      Paudhe ke patte ki photo upload karke fasal ki sambhavit
+      bimari ke baare mein jaanein. KrishiMitra aapko shuruaati
+      jaankari aur agle kadam samajhne mein madad karta hai.
+    </p>
+    <a class="btn" href="#detect">🔍 Check My Crop</a>
+  </div>
+  <div class="hero-art" aria-label="Growing plant">🌱</div>
+</section>
+
+<section id="detect">
+  <h2 class="section-title">AI Crop Disease Detector</h2>
+  <p class="section-sub">
+    Apne paudhe ke patte ki saaf photo select karein.
+  </p>
+
+  <div class="detector">
+    <div class="upload" onclick="document.getElementById('photo').click()">
+      <div class="leaf">📷</div>
+      <h3>Upload Crop Image</h3>
+      <p>JPG, PNG ya WEBP image select karein</p>
+      <button class="btn" type="button">Choose Image</button>
+      <input id="photo" type="file" accept="image/*" hidden
+        onchange="showPreview(event)">
+      <img id="preview" alt="Selected crop preview">
+    </div>
+
+    <div class="actions">
+      <button class="btn" onclick="analyzeCrop()">🔬 Analyze Crop</button>
+      <button class="btn secondary" onclick="resetApp()">↻ Reset</button>
+    </div>
+
+    <p id="status" role="status">Photo select karne ke baad Analyze Crop par click karein.</p>
+
+    <div class="result" id="result" aria-live="polite">
+      <h3 id="resultTitle">Analysis Result</h3>
+      <p id="resultText"></p>
+      <p id="resultAdvice"></p>
+    </div>
+  </div>
+
+  <div class="notice">
+    <strong>Important:</strong> Is single-file version mein real trained AI model
+    included nahi hai. Analysis result demo guidance hai, photo se confirm ki gayi
+    diagnosis nahi. Sahi AI prediction ke liye trained model connect karna hoga.
+  </div>
+</section>
+
+<section id="guide">
+  <h2 class="section-title">Farmer Help Center</h2>
+  <p class="section-sub">Fasal ki dekhbhaal ke liye kuch zaroori baatein.</p>
+
+  <div class="cards">
+    <div class="card">
+      <div class="emoji">🍃</div>
+      <h3>Patton ko check karein</h3>
+      <p>Daag, peela pan, murjhana ya badhti hui kharabi par dhyaan dein.</p>
+    </div>
+    <div class="card">
+      <div class="emoji">💧</div>
+      <h3>Paani ka dhyaan</h3>
+      <p>Fasal ki zaroorat aur mitti ke hisaab se paani dein. Zyada paani se bachein.</p>
+    </div>
+    <div class="card">
+      <div class="emoji">👨‍🌾</div>
+      <h3>Expert se salah</h3>
+      <p>Bimari badhne par local Krishi Vigyan Kendra ya agriculture officer se sampark karein.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <strong>🌿 KrishiMitra AI</strong>
+  <p>Technology for better farming.</p>
+  <small>Preliminary information only. Final diagnosis ke liye local expert ki salah lein.</small>
+</footer>
+
+<script>
+function showPreview(event){
+  const file = event.target.files[0];
+  const preview = document.getElementById('preview');
+  const status = document.getElementById('status');
+
+  document.getElementById('result').style.display = 'none';
+
+  if(!file) return;
+
+  if(!file.type.startsWith('image/')){
+    status.textContent = 'Please ek valid image select karein.';
+    event.target.value = '';
+    return;
+  }
+
+  if(file.size > 10 * 1024 * 1024){
+    status.textContent = 'Image 10 MB se chhoti honi chahiye.';
+    event.target.value = '';
+    return;
+  }
+
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = 'block';
+  status.textContent = 'Photo ready hai. Ab Analyze Crop par click karein.';
+}
+
+function analyzeCrop(){
+  const file = document.getElementById('photo').files[0];
+  const result = document.getElementById('result');
+
+  if(!file){
+    document.getElementById('status').textContent =
+      'Pehle apne paudhe ki photo upload karein.';
+    return;
+  }
+
+  document.getElementById('resultTitle').textContent = 'Demo Guidance';
+  document.getElementById('resultText').textContent =
+    'Abhi real AI model connect nahi hai, isliye is website ne aapki photo se bimari identify nahi ki hai.';
+  document.getElementById('resultAdvice').textContent =
+    'Agla kadam: patte ke dono taraf dekhein, paudhe par lakshanon ka pattern note karein, aur zaroorat padne par local agriculture expert ko photo dikhayein. Bina diagnosis ke pesticide ka use na karein.';
+
+  result.style.display = 'block';
+  document.getElementById('status').textContent =
+    'Photo upload ho gayi. Yeh demo mode hai, AI prediction nahi.';
+}
+
+function resetApp(){
+  document.getElementById('photo').value = '';
+  document.getElementById('preview').removeAttribute('src');
+  document.getElementById('preview').style.display = 'none';
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('status').textContent =
+    'Photo select karne ke baad Analyze Crop par click karein.';
+}
+</script>
+</body>
+</html>
